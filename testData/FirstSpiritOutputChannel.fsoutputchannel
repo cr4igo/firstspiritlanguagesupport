@@ -1,0 +1,41 @@
+    $--  This template provides
+    some testing stuff
+    --$
+                    $CMS_IF(var)$
+                        foo
+                                $CMS_IF(var)$$CMS_END_IF$
+
+
+
+                    $CMS_ELSE$
+
+
+                        bar
+                    $CMS_END_IF$
+                    $CMS_IF(var)$
+                                $CMS_VALUE(var)$
+                                $CMS_IF(var)$
+
+                                $CMS_END_IF$
+                                $CMS_FOR(element,elements)$
+                                            $CMS_IF(var)$$CMS_END_IF$
+                                $CMS_END_FOR$
+                    $CMS_END_IF$
+                    $CMS_IF(asdfworking)$
+                    $-- comment bar --$
+                        hier steht  $CMS_VALUE(st_headline)$$CMS_VALUE(var)$
+                                $CMS_IF(c)$
+                                    anotheraa yeah
+                                $CMS_END_IF$
+                                $CMS_VALUE(anystring, default:"foo")$
+                                $CMS_VALUE(anystring)$
+                                $CMS_IF(b)$
+                                $-- foo and some other stuff.. --$
+                                $--$CMS_TRIM(level:82)$ $CMS_END_TRIM$--$
+                                $CMS_END_IF$
+                    $CMS_END_IF$
+                    $CMS_VALUE(var,
+                    default:"")$
+
+
+        $-- a comment --$

@@ -1,0 +1,85 @@
+<!--
+Copyright 2014 Markus Priegl
+
+Licensed under the Apache License, Version 2.0 (the "License");
+you may not use this file except in compliance with the License.
+You may obtain a copy of the License at
+
+http://www.apache.org/licenses/LICENSE-2.0
+
+Unless required by applicable law or agreed to in writing, software
+distributed under the License is distributed on an "AS IS" BASIS,
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+See the License for the specific language governing permissions and
+limitations under the License.
+-->
+<idea-plugin version="2" url="https://community.e-spirit.com/groups/firstspirit-languagesupport">
+    <id>FirstSpiritLanguagesupport</id>
+    <name>FirstSpirit Languagesupport</name>
+    <version>0.1.0</version>
+    <description><![CDATA[
+        This plugin provides language support for the CMS FirstSpirit&#8482; templating syntax and some features for FirstSpirit&#8482; template developers.
+        <hr>
+        <h4>Supporters and Contributors</h4>
+            - Markus Priegl https://www.xing.com/profile/Markus_Priegl
+        <h4>Contribute and Collaborate</h4>
+            github project: <a href="https://github.com">https://github.com</a> <br>
+            FirstSpirit&#8482; Community: <a href="https://community.e-spirit.com/groups/firstspirit-languagesupport">https://community.e-spirit.com/groups/firstspirit-languagesupport</a><br>
+        <h4>License</h4>
+        Apache License, Version 2.0
+        <h4>Initiator</h4>
+            This plugin was initially developed by Markus Priegl.
+        ]]></description>
+
+    <change-notes><![CDATA[
+        change notes see <a href="https://community.e-spirit.com/docs/DOC-1804">FirstSpirit community</a>
+        ]]>
+    </change-notes>
+
+    <!-- please see http://confluence.jetbrains.net/display/IDEADEV/Build+Number+Ranges for description -->
+    <idea-version since-build="133.331"/>
+
+    // for future this plugin might depend on another plugin which provides the FirstSpirit (TM) API
+    // at the moment this doesn't work, caused by classloading issues within IntelliJ
+    <!--<depends>FirstSpiritClassLoader</depends>-->
+
+    <!-- please see http://confluence.jetbrains.net/display/IDEADEV/Plugin+Compatibility+with+IntelliJ+Platform+Products
+         on how to target different products -->
+    <!-- enabling this plugin in all products of Jetbrains based on the IntelliJ Core
+         please do not add a product specific dependency here for full compatibility -->
+    <depends>com.intellij.modules.lang</depends>
+
+    <application-components>
+    </application-components>
+
+    <project-components>
+    </project-components>
+
+    <actions>
+    </actions>
+
+    <extensions defaultExtensionNs="com.intellij">
+        <fileTypeFactory implementation="com.intellij.plugins.firstspirit.languagesupport.FirstSpiritOutputChannelFileTypeFactory"/>
+        <lang.parserDefinition language="FirstSpiritOutputChannel"
+                               implementationClass="com.intellij.plugins.firstspirit.languagesupport.FirstSpiritOutputChannelParserDefinition"/>
+        <lang.syntaxHighlighterFactory key="FirstSpiritOutputChannel"
+                                       implementationClass="com.intellij.plugins.firstspirit.languagesupport.FirstSpiritOutputChannelSyntaxHighlighterFactory"/>
+        <completion.contributor language="FirstSpiritOutputChannel"
+                                implementationClass="com.intellij.plugins.firstspirit.languagesupport.FirstSpiritOutputChannelCompletionContributor"/>
+        <lang.commenter language="FirstSpiritOutputChannel"
+                        implementationClass="com.intellij.plugins.firstspirit.languagesupport.FirstSpiritOutputChannelCommenter"/>
+        <annotator language="FirstSpiritOutputChannel"
+                   implementationClass="com.intellij.plugins.firstspirit.languagesupport.FirstSpiritOutputChannelAnnotator"/>
+        <colorSettingsPage
+                implementation="com.intellij.plugins.firstspirit.languagesupport.FirstSpiritOutputChannelColorSettingsPage"/>
+        <lang.formatter language="FirstSpiritOutputChannel"
+                        implementationClass="com.intellij.plugins.firstspirit.languagesupport.FirstSpiritOutputChannelFormattingModelBuilder"/>
+        <lang.braceMatcher language="FirstSpiritOutputChannel" implementationClass="com.intellij.plugins.firstspirit.languagesupport.FirstSpiritOutputChannelPairedBraceMatcher"/>
+        <languageInjector implementation="com.intellij.plugins.firstspirit.languagesupport.FirstSpiritOutputChannelLanguageInjector"/>
+    </extensions>
+    <extensionPoints>
+        <!--<extensionPoint name="languageInjector" interface="com.intellij.psi.LanguageInjector"/>-->
+        <!--<extensionPoint name="braceMatcher"
+                        beanClass="com.intellij.firstspirit.languagepluginutputChannelBraceMatcher"/>-->
+    </extensionPoints>
+</idea-plugin>
