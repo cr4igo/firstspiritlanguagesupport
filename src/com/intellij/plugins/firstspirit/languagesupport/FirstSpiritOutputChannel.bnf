@@ -1,0 +1,145 @@
+/*
+* Copyright 2014 Markus Priegl
+*
+* Licensed under the Apache License, Version 2.0 (the "License");
+* you may not use this file except in compliance with the License.
+* You may obtain a copy of the License at
+*
+* http://www.apache.org/licenses/LICENSE-2.0
+*
+* Unless required by applicable law or agreed to in writing, software
+* distributed under the License is distributed on an "AS IS" BASIS,
+* WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+* See the License for the specific language governing permissions and
+* limitations under the License.
+*/
+// BNF grammar for FirstSpiritOutputChannel. For help see erlangs-grammar: https://github.com/ignatov/intellij-erlang/blob/master/grammars/erlang.bnf
+{
+  classHeader="license.txt"
+  parserClass="com.intellij.plugins.firstspirit.languagesupport.parser.FirstSpiritOutputChannelParser"
+  parserUtilClass="com.intellij.plugins.firstspirit.languagesupport.parser.FirstSpiritOutputChannelParserUtil"
+  stubParserClass="org.intellij.grammar.parser.GeneratedParserUtilBase"
+
+  extends="com.intellij.extapi.psi.ASTWrapperPsiElement"
+
+  psiClassPrefix="FirstSpiritOutputChannel"
+  psiImplClassSuffix="Impl"
+  psiPackage="com.intellij.plugins.firstspirit.languagesupport.psi"
+  psiImplPackage="com.intellij.plugins.firstspirit.languagesupport.psi.impl"
+
+  elementTypeHolderClass="com.intellij.plugins.firstspirit.languagesupport.psi.FirstSpiritOutputChannelTypes"
+  elementTypePrefix="FSOUT_"
+  elementTypeClass="com.intellij.plugins.firstspirit.languagesupport.psi.FirstSpiritOutputChannelElementType"
+  tokenTypeClass="com.intellij.plugins.firstspirit.languagesupport.psi.FirstSpiritOutputChannelTokenType"
+
+  psiImplUtilClass="com.intellij.plugins.firstspirit.languagesupport.psi.impl.FirstSpiritPsiImplUtil"
+
+  generateTokenAccessors=true
+
+  tokens=[
+
+        PAR_LEFT    = "("
+        PAR_RIGHT   = ")"
+        COMMA       = ","
+
+        // FirstSpirit keywords
+        IF          = "$CMS_IF"
+        IF_ELSE     = "$CMS_ELSE$"
+        IF_ELSIF    = "$CMS_ELSIF"
+        IF_END      = "$CMS_END_IF$"
+        VALUE       = "$CMS_VALUE"
+        SET         = "$CMS_SET"
+        SET_END     = "$CMS_END_SET$"
+        REF         = "$CMS_REF"
+        FOR         = "$CMS_FOR"
+        FOR_END     = "$CMS_END_FOR$"
+        INCLUDE     = "$CMS_INCLUDE"
+        RENDER      = "$CMS_RENDER"
+        SWITCH      = "$CMS_SWITCH"
+        SWITCH_END  = "$CMS_END_SWITCH$"
+        CASE        = "$CMS_CASE"
+        TRIM        = "$CMS_TRIM"
+        TRIM_END    = "$CMS_END_TRIM$"
+
+        PAR_RIGHT_DOLLAR      = ")$"
+        COMMENT_BEGIN = "$--"
+        COMMENT_END = "--$"
+
+        TRIM_LEVEL  = "level"
+        DEFAULT     = "default"
+        MEDIA       = "media"
+        SCRIPT      = "script"
+
+        comment     = "regexp:\$--[^*]~--\$ | \$--.*--\$"
+        // placeholder for any string AND e.g. java-expressions within CMS_IF(statement)..
+        something   = "regexp:\w+"
+        uid         = "regexp:([a-zA-Z]|[0-9]|_)*"
+        string      = "regexp:('([^'\\]|\\.)*'|\"([^\"\\]|\\.)*\")"
+    ]
+}
+
+private outputchannel ::= body
+private expressions_recover ::= ''
+expression ::=   cmsif
+               | cmsvalue
+               | cmsfor /*
+               | set_expression
+               | ref_media_expression
+               | ref_script_expression
+               | for_expression
+               | render_expression
+               | include_expression
+               | switch_expression
+               | trim_expression */
+               {recoverWhile=expressions_recover pin=1}
+
+body ::= (expression | comment | something)*
+
+// $CMS_IF(..)$..$CMS_END_IF$
+// $CMS_IF(..)$$CMS_ELSE$$CMS_END_IF$
+// $CMS_IF(..)$$CMS_ELSIF(..)$$CMS_ELSE$$CMS_END_IF$
+cmsif ::= '$CMS_IF''(' something expression_end (body '$CMS_ELSIF''(' something expression_end)* body ('$CMS_ELSE$' if_end | if_end) {
+  pin=1
+  methods = []
+}
+private if_end ::= body '$CMS_END_IF$' {pin=2; rightAssociative=true}
+
+// $CMS_VALUE(..)$
+cmsvalue ::= '$CMS_VALUE''(' something [',''default'':' string] expression_end {
+  pin=1
+  methods = []
+}
+
+private expression_end ::= ')$' {rightAssociative=true}
+
+// $CMS_FOR(..,..)$..$CMS_END_FOR$
+cmsfor ::= '$CMS_FOR''(' something ',' something expression_end for_end {
+  pin=1
+  methods = []
+}
+private for_end ::= body '$CMS_END_FOR$' {pin=2; rightAssociative=true}
+
+/*
+// TODO: other statement without body
+set_expression ::= '$CMS_SET(' string ',' string ')' '$'
+                    statement '$CMS_END_SET$'? {pin=1}
+
+ref_media_expression ::= '$CMS_REF(''media:' UID ')' '$' {
+    pin=1
+}
+
+ref_script_expression ::= '$CMS_REF(''script:' UID ')' '$' {
+                       pin=1
+                   }
+
+render_expression ::= '$CMS_RENDER(' string ')' '$' {pin=1}
+
+include_expression ::= '$CMS_INCLUDE(' string ')' '$' {pin=1}
+
+switch_expression ::= '$CMS_SWITCH(' string ')' '$'
+                      statement '$CMS_CASE(' string ')' '$'
+                      statement '$CMS_END_SWITCH$' {pin=1}
+
+trim_expression ::= '$CMS_TRIM(' 'level' ':' string ')' '$'
+                   statement '$CMS_END_TRIM$' {pin=1}
+*/
