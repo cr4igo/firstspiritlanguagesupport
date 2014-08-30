@@ -1,0 +1,3 @@
+<component name="DependencyValidationManager">
+  <scope name="All FirstSpirit Language Support sources" pattern="!file:*/||file:src//*" />
+</component>
