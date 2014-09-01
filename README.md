@@ -28,6 +28,7 @@ As a prerequisite you need - as for other language plugins - to install some dev
 
 3. Now you have to open the context-menu on the "FirstSpiritOutputChannel.bnf" file and call "Generate Parser Code" and "Generate JFlex Lexer".
    After the "Generate Parser Code" the folder "gen" will be created. Please generate within the "gen" folder also the JFlex Lexer file by selecting the "gen\com\intellij\plugins\firstspirit\languagesupport" folder.
-   The generated files should never be checked in.
+   Within the folder "gen\com\intellij\plugins\firstspirit\languagesupport" there should be a file generated named "_FirstSpiritOutputChannelLexer.flex". Now run the JFlex Generator by using the context-menu onto the file and selecting "Run JFlex Generator".
+   Please keep in mind: The generated files should never be checked in - thats why those are located under the "gen" folder.
    
 4. Now you can compile the code. If you haven't setupped the "IntelliJ Platform Plugin SDK" you have to do so. To "install" and "run" the plugin locally you have to create a new "Plugin"-run-configuration.
