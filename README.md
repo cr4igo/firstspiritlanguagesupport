@@ -12,6 +12,11 @@ As IDE all of the JetBrains IDEs (IntelliJ IDEA, PyCharm, RubyMine, PhpStorm, Ap
 ## Links
 [FirstSpirit&#8482; Community](https://community.e-spirit.com/groups/firstspirit-languagesupport)
 
+## Installation
+You can download the releases here: https://github.com/cr4igo/firstspiritlanguagesupport/releases .
+After downloading the JAR-file you can download the plugin in your Jetbrains IDE manually by selecting the file via
+'File' -> 'Settings' -> 'Plugins' -> 'Install plugin from disk...'.
+
 ## Features
 .. tbd ..
 
