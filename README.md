@@ -6,6 +6,7 @@ As IDE all of the JetBrains IDEs (IntelliJ IDEA, PyCharm, RubyMine, PhpStorm, Ap
 
 ## TOC
 + [Links](#links)
++ [Installation](#installation)
 + [Features](#features)
 + [Build](#build)
 
